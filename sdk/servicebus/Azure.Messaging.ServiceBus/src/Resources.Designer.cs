@@ -358,6 +358,15 @@ namespace Azure.Messaging.ServiceBus {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The message processor is not currently running. It needs to be started before it can be stopped..
+        /// </summary>
+        internal static string MessageProcessorIsNotRunning {
+            get {
+                return ResourceManager.GetString("MessageProcessorIsNotRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The message (id:{0}, size:{1} bytes) is larger than is currently allowed ({2} bytes)..
         /// </summary>
         internal static string MessageSizeExceeded {
@@ -403,7 +412,7 @@ namespace Azure.Messaging.ServiceBus {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This operation is only supported for a message receiver in &apos;PeekLock&apos; receive mode..
+        ///   Looks up a localized string similar to This operation is not supported for peeked messages. Only messages received in PeekLock mode can be settled..
         /// </summary>
         internal static string PeekLockModeRequired {
             get {
@@ -511,11 +520,11 @@ namespace Azure.Messaging.ServiceBus {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The length of the filter action statement is {0}, which exceeds the maximum length of {1}..
+        ///   Looks up a localized string similar to The length of the filter statement is {0}, which exceeds the maximum length of {1}.
         /// </summary>
-        internal static string SqlFilterActionStatmentTooLong {
+        internal static string SqlRuleFilterStatmentTooLong {
             get {
-                return ResourceManager.GetString("SqlFilterActionStatmentTooLong", resourceCulture);
+                return ResourceManager.GetString("SqlRuleFilterStatmentTooLong", resourceCulture);
             }
         }
         

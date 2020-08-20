@@ -25,12 +25,6 @@ namespace Azure.Messaging.ServiceBus
         /// </summary>
         public CancellationToken CancellationToken { get; }
 
-        /// <summary>
-        /// Indicates whether the user has settled the message as part of their callback.
-        /// If they have done so, we will not autocomplete.
-        /// </summary>
-        internal bool IsMessageSettled { get; set; }
-
         private readonly ServiceBusReceiver _receiver;
 
         /// <summary>
@@ -54,14 +48,14 @@ namespace Azure.Messaging.ServiceBus
         /// <param name="propertiesToModify"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task AbandonAsync(
+        public async Task AbandonMessageAsync(
             ServiceBusReceivedMessage message,
             IDictionary<string, object> propertiesToModify = default,
             CancellationToken cancellationToken = default)
         {
-            await _receiver.AbandonAsync(message, propertiesToModify, cancellationToken)
+            await _receiver.AbandonMessageAsync(message, propertiesToModify, cancellationToken)
             .ConfigureAwait(false);
-            IsMessageSettled = true;
+            message.IsSettled = true;
         }
 
         /// <summary>
@@ -70,15 +64,15 @@ namespace Azure.Messaging.ServiceBus
         /// <param name="message"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task CompleteAsync(
+        public async Task CompleteMessageAsync(
             ServiceBusReceivedMessage message,
             CancellationToken cancellationToken = default)
         {
-            await _receiver.CompleteAsync(
+            await _receiver.CompleteMessageAsync(
                 message,
                 cancellationToken)
             .ConfigureAwait(false);
-            IsMessageSettled = true;
+            message.IsSettled = true;
         }
 
         /// <summary>
@@ -89,19 +83,19 @@ namespace Azure.Messaging.ServiceBus
         /// <param name="deadLetterErrorDescription"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task DeadLetterAsync(
+        public async Task DeadLetterMessageAsync(
             ServiceBusReceivedMessage message,
             string deadLetterReason,
             string deadLetterErrorDescription = default,
             CancellationToken cancellationToken = default)
         {
-            await _receiver.DeadLetterAsync(
+            await _receiver.DeadLetterMessageAsync(
                 message,
                 deadLetterReason,
                 deadLetterErrorDescription,
                 cancellationToken)
             .ConfigureAwait(false);
-            IsMessageSettled = true;
+            message.IsSettled = true;
         }
 
         /// <summary>
@@ -111,17 +105,17 @@ namespace Azure.Messaging.ServiceBus
         /// <param name="propertiesToModify"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task DeadLetterAsync(
+        public async Task DeadLetterMessageAsync(
             ServiceBusReceivedMessage message,
             IDictionary<string, object> propertiesToModify = default,
             CancellationToken cancellationToken = default)
         {
-            await _receiver.DeadLetterAsync(
+            await _receiver.DeadLetterMessageAsync(
                 message,
                 propertiesToModify,
                 cancellationToken)
             .ConfigureAwait(false);
-            IsMessageSettled = true;
+            message.IsSettled = true;
         }
 
         /// <summary>
@@ -131,17 +125,17 @@ namespace Azure.Messaging.ServiceBus
         /// <param name="propertiesToModify"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task DeferAsync(
+        public async Task DeferMessageAsync(
             ServiceBusReceivedMessage message,
             IDictionary<string, object> propertiesToModify = default,
             CancellationToken cancellationToken = default)
         {
-            await _receiver.DeferAsync(
+            await _receiver.DeferMessageAsync(
                 message,
                 propertiesToModify,
                 cancellationToken)
             .ConfigureAwait(false);
-            IsMessageSettled = true;
+            message.IsSettled = true;
         }
     }
 }
