@@ -7,25 +7,11 @@ Run `dotnet msbuild /t:GenerateCode` to generate code.
 
 ``` yaml
 input-file:
-    -  https://github.com/Azure/azure-rest-api-specs/blob/8a4b2b1a8fdf9b5a05d9ba37cae3ad074d4b8859/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.0/FormRecognizer.json
+    -  https://github.com/Azure/azure-rest-api-specs/blob/40008a6fae4c614cfed5f401a635462eb4e93a93/specification/cognitiveservices/data-plane/FormRecognizer/stable/v2.0/FormRecognizer.json
 ```
 
 
 
-### Hide LROs
-``` yaml
-directive:
-- from: swagger-document
-  where: $["paths"]
-  transform: >
-    for (var path in $) {
-        for (var op of Object.values($[path])) {
-            if (op["x-ms-long-running-operation"]) {
-                delete op["x-ms-long-running-operation"];
-            }
-        }
-    }
-```
 
 ### Make AnalyzeResult.readResult optional
 This is a temporary work-around
@@ -34,4 +20,59 @@ directive:
 - from: swagger-document
   where: $.definitions.AnalyzeResult
   transform: $.required = ["version"];
+```
+
+### Add nullable annotations
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AnalyzeResult
+  transform: >
+    $.properties.readResults["x-nullable"] = true;
+    $.properties.pageResults["x-nullable"] = true;
+    $.properties.documentResults["x-nullable"] = true;
+```
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AnalyzeOperationResult
+  transform: >
+    $.properties.analyzeResult["x-nullable"] = true;
+```
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.KeyValueElement
+  transform: >
+    $.properties.boundingBox["x-nullable"] = true;
+    $.properties.elements["x-nullable"] = true;
+```
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PageResult
+  transform: >
+    $.properties.clusterId["x-nullable"] = true;
+```
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.DocumentResult
+  transform: >
+    $.properties.fields.additionalProperties["x-nullable"] = true;
+```
+
+### Make generated models internal by default
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.*
+  transform: >
+    $["x-accessibility"] = "internal"
 ```

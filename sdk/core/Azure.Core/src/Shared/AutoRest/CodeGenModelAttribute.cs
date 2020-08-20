@@ -8,13 +8,24 @@ using System;
 namespace Azure.Core
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Struct)]
-    internal class CodeGenModelAttribute : Attribute
+    internal class CodeGenModelAttribute : CodeGenTypeAttribute
     {
-        public string OriginalName { get; }
+        /// <summary>
+        /// Gets or sets a coma separated list of additional model usage modes. Allowed values: model, error, intput, output.
+        /// </summary>
+        public string[]? Usage { get; set; }
 
-        public CodeGenModelAttribute(string originalName)
+        /// <summary>
+        /// Gets or sets a coma separated list of additional model serialization formats.
+        /// </summary>
+        public string[]? Formats { get; set; }
+
+        public CodeGenModelAttribute() : base(null)
         {
-            OriginalName = originalName;
+        }
+
+        public CodeGenModelAttribute(string originalName): base(originalName)
+        {
         }
     }
 }
