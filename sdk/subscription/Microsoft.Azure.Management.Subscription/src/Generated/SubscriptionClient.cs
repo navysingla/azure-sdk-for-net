@@ -76,14 +76,14 @@ namespace Microsoft.Azure.Management.Subscription
         public virtual ISubscriptionOperations Subscription { get; private set; }
 
         /// <summary>
-        /// Gets the ISubscriptionOperationOperations.
-        /// </summary>
-        public virtual ISubscriptionOperationOperations SubscriptionOperation { get; private set; }
-
-        /// <summary>
         /// Gets the IOperations.
         /// </summary>
         public virtual IOperations Operations { get; private set; }
+
+        /// <summary>
+        /// Gets the IAliasOperations.
+        /// </summary>
+        public virtual IAliasOperations Alias { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the SubscriptionClient class.
@@ -327,8 +327,8 @@ namespace Microsoft.Azure.Management.Subscription
         private void Initialize()
         {
             Subscription = new SubscriptionOperations(this);
-            SubscriptionOperation = new SubscriptionOperationOperations(this);
             Operations = new Operations(this);
+            Alias = new AliasOperations(this);
             BaseUri = new System.Uri("https://management.azure.com");
             ApiVersion = "2019-10-01-preview";
             AcceptLanguage = "en-US";
